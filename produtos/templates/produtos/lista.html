@@ -1,4 +1,18 @@
-{% extends 'produtos/base.html' %} {% block content %}
+{% extends 'produtos/base.html' %} 
+
+{% block content %}
+
+<style>
+    .estoque-baixo td {
+        background-color: #fff3cd !important; 
+        font-weight: bold;
+    }
+    .alerta-icone {
+        color: #d9534f; 
+        margin-right: 6px;
+    }
+</style>
+
 <h2
   style="
     text-align: center;
@@ -7,11 +21,11 @@
     font-family: 'Trebuchet MS', sans-serif;
   "
 >
-  📦 Lista de Produtos
+  ⚙️ Peças
 </h2>
 
 <table
-  class="table table-striped"
+  class="table"
   style="
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
@@ -22,24 +36,31 @@
     style="background: linear-gradient(90deg, #6a11cb, #2575fc); color: white"
   >
     <tr>
-      <th>Nome</th>
-      <th>Preço</th>
+      <th>Peça</th>
       <th>Quantidade</th>
-      <th>Fabricante</th>
+      <th>Prateleira</th>
+      <th>Código</th>
+      <th>Estoque Mínimo</th>
     </tr>
   </thead>
   <tbody>
     {% for produto in produtos %}
-    <tr>
-      <td>{{ produto.nome }}</td>
-      <td>R$ {{ produto.preco }}</td>
+    <tr {% if produto.quantidade < produto.minimo %} class="estoque-baixo" {% endif %}>
+      <td>
+        {% if produto.quantidade < produto.minimo %}
+            <span class="alerta-icone">⚠️</span>
+        {% endif %}
+        {{ produto.peca }}
+      </td>
       <td>{{ produto.quantidade }}</td>
-      <td>{{ produto.fabricante }}</td>
+      <td>{{ produto.prateleira }}</td>
+      <td>{{ produto.codigo }}</td>
+      <td>{{ produto.minimo }}</td>
     </tr>
     {% empty %}
     <tr>
       <td
-        colspan="4"
+        colspan="5"
         style="text-align: center; font-style: italic; color: #777"
       >
         Nenhum produto cadastrado.
@@ -48,30 +69,4 @@
     {% endfor %}
   </tbody>
 </table>
-
-<footer
-  style="
-    margin-top: 40px;
-    text-align: center;
-    padding: 20px;
-    background: linear-gradient(90deg, #6a11cb, #2575fc);
-    color: white;
-    font-family: 'Trebuchet MS', sans-serif;
-    font-size: 18px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  "
->
-  <p
-    style="margin: 0; cursor: pointer"
-    onmouseover="this.parentElement.style.transform='scale(1.05)'; this.parentElement.style.boxShadow='0 6px 18px rgba(0,0,0,0.5)';"
-    onmouseout="this.parentElement.style.transform='scale(1)'; this.parentElement.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)';"
-  >
-    🚀 Desenvolvido por <strong>Leonardo Silva Rodrigues</strong>
-  </p>
-</footer>
 {% endblock %}

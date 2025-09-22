@@ -2,8 +2,8 @@ from django.contrib import admin
 from .models import Produto
 
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'preco', 'quantidade') # Colunas visíveis
-    list_filter = ('preco',) # Filtro por preço
-    search_fields = ('nome',) # Pesquisa por nome
+    list_display = ('peca', 'quantidade', 'prateleira', 'codigo', 'minimo')  # campos existentes
+    list_filter = ('quantidade', 'minimo')  # filtros que fazem sentido
+    search_fields = ('peca',)  # pesquisa por campo existente
 
 admin.site.register(Produto, ProdutoAdmin)

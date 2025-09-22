@@ -1,0 +1,39 @@
+{% extends 'produtos/base.html' %}
+
+{% block content %}
+<h2 style="text-align:center; margin-bottom:20px;">📦 Movimentação de Estoque</h2>
+
+<form method="post" style="margin-bottom: 30px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Registrar Movimentação</button>
+</form>
+
+<h3>Movimentações Recentes</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Produto</th>
+            <th>Tipo</th>
+            <th>Quantidade</th>
+            <th>Observação</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in movimentacoes %}
+        <tr>
+            <td>{{ m.data }}</td>
+            <td>{{ m.produto.peca }}</td>
+            <td>{{ m.tipo }}</td>
+            <td>{{ m.quantidade }}</td>
+            <td>{{ m.observacao }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" style="text-align:center;">Nenhuma movimentação registrada.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
